@@ -1,0 +1,59 @@
+*, *::before, *::after {
+    outline: none;    
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,body, #root {
+    height: 100vh;
+    background-color: var(--base-gray-600);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--base-gray-100);
+}
+
+#root {
+    position: relative;
+}
+
+input, textarea, select {
+    width: 100%;
+    height: 3.375rem;
+    border-radius: 8px;
+    padding: 16px;
+    outline: 1px solid var(--base-gray-700);
+    background: transparent;
+
+    box-sizing: border-box;
+
+    font-size: 16px;
+    color: var(--base-gray-100);    
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 1px solid var(--secondary-purple-dark);
+}
+
+input::placeholder {
+    color: var(--base-gray-300);
+}
+
+.remove-caret{
+    caret-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    html {
+        /*
+            The font size will be 87.5 percent from font size base from device
+
+            Follow the calc base to 87.5 -> MS * 1000 / SFD
+
+            14 * 1000 / 16
+        */
+        font-size: 87.5%;
+    }    
+}

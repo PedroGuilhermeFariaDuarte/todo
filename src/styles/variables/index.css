@@ -1,0 +1,21 @@
+:root {
+    /*
+     Base colors
+    */
+    --base-danger: #E25858;
+    --base-gray-100: #F2F2F2;
+    --base-gray-200: #D9D9D9;
+    --base-gray-300: #808080;
+    --base-gray-400: #333333;
+    --base-gray-500: #262626;
+    --base-gray-600: #1A1A1A;
+    --base-gray-700: #0D0D0D;
+
+   /*
+    Secodanry colors
+   */ 
+    --secondary-purple: #8284FA;
+    --secondary-purple-dark: #5E60CE;
+    --secondary-blue: #4EA8DE;
+    --secondary-blue-dark: #1E6F9F;
+}

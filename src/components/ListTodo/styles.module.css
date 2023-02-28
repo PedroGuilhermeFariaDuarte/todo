@@ -1,0 +1,63 @@
+.listTodo {
+    width: 100%;
+    height: auto;    
+
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.header {
+    width: 100%;
+    height: auto;
+
+    font-size: 0.875rem;
+    font-weight: bold;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.itemHeader {
+    min-width: 8.625rem;
+    height: auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+.itemHeader p {
+    font-weight: bold;
+    color: var(--secondary-blue);
+
+    cursor: default;
+    user-select: none;
+}
+
+.itemHeader ~ .itemHeader p{
+    color: var(--secondary-purple);
+}
+
+.count {
+    min-width: 1.5rem;
+    height: 1.188rem;
+    padding: 8px;
+    border-radius: 17px;
+    background-color: var(--base-gray-400);
+
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--base-gray-200);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
