@@ -21,7 +21,7 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
             if(!event) return
 
             event.preventDefault()
-            
+
             const newTodo: ITodo = {
                 id: new Date().getTime(),
                 content: todoContent, 
@@ -30,9 +30,12 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
 
             if(newTodo.id <= 0) return
 
-            if (onAddTodo) onAddTodo(newTodo)
-
-            (event.target?.input as HTMLInputElement) .setCustomValidity('Informe o conteudo do seu novo Todo')
+            
+            if (onAddTodo) {
+                onAddTodo(newTodo)
+            }
+            
+            (event.target as HTMLFormElement)?.input?.setCustomValidity('')     
             setTodoContent("")
         } catch (error) {
             console.log("AddTodoComponent@error ~ AddTodo", error)
@@ -51,21 +54,20 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
         try {
             if (!event) return
 
-            event.target?.setCustomValidity('Informe o conteudo do seu novo Todo')
+            (event.target as HTMLInputElement)?.setCustomValidity('Informe o conteudo do seu novo Todo')
         } catch (error) {
             console.log('AddTodo@error ~ handleNewTodoContent', error)
         }
     }
 
-    return <>  
-        {}      
+    return <>             
         <form action="#" onSubmit={handleSubmitTodoForm} className={styles.formAddTodo}>            
             <input 
                 type="text" 
                 placeholder="Adicione uma nova tarefa" 
                 onChange={handleNewTodoContent}
                 className={`${!todoHasContent ? 'remove-caret' : '' }`}
-                defaultValue={todoContent} 
+                value={todoContent}                 
                 onInvalid={handleNewTodoContentIsInvalid}
                 required/>
             <label>Descrição da tarefa |</label>

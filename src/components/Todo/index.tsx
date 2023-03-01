@@ -24,13 +24,13 @@ export function Todo({todo,onRemoveTodo,onCheckTodo}: ITodoProps){
 
     return <>
         <li className={styles.todo}>
-            <label htmlFor="todo-checked" className={styles.inputCheckWrapper}>
-                <input type="checkbox" name="todo-checked" id="todo-checked" className={styles.inputCheck} onClick={handleCheckTodo} />
+            <label htmlFor={`todo-checked-${todo.id}`} className={styles.inputCheckWrapper}>
+                <input type="checkbox" name={`todo-checked-${todo.id}`} id={`todo-checked-${todo.id}`} className={styles.inputCheck} onClick={handleCheckTodo} />
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check" viewBox="0 0 16 16">
                     <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
             </label>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, temporibus! Doloribus reprehenderit, repellat pariatur qui impedit earum perspiciatis soluta veritatis ab magni rem nostrum quidem, ratione nisi, error blanditiis iure!</p>
+            <p>{todo.content}</p>
             <button type="button" onClick={handleRemoveTodo}>
                 <svg width="13" height="14" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.20214 4.98547H6.87158V10.5073H8.20214V4.98547Z" />

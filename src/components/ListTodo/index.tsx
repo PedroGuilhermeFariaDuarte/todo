@@ -1,5 +1,6 @@
 // Global Components
 import { Todo } from "../Todo"
+import { AddTodo } from "../AddTodo"
 
 // Global Types
 import { ITodo } from "../Todo/types"
@@ -9,15 +10,22 @@ import { IListTodoProps } from "./types"
 
 // Styles
 import styles from "./styles.module.css"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-export function ListTodo({todo}: IListTodoProps) {
-    const [listTodo, setListTodo] = useState<Array<ITodo>>([])
-    const hasListOfTodos = listTodo && listTodo?.length <= 0 && true
+export function ListTodo({  }: IListTodoProps) {
+    const [listTodo, setListTodo] = useState<Array<ITodo>>([])    
 
-    useEffect(() => {
-        if(todo) setListTodo(listTodo => [...listTodo, todo])
-    }, [todo ])
+    function handleAddTodo(newTodo: ITodo) {
+        try {
+            if (newTodo && newTodo.id <= 0) return                        
+
+            const listTodoWithoutSameID = listTodo.length > 2 ? listTodo.filter(todo => todo.id !== newTodo.id) : listTodo
+
+            setListTodo([...listTodoWithoutSameID, newTodo]) 
+        } catch (error) {
+            console.log("ListTodoComponent@error ~ handleAddTodo", error)
+        }
+    }
 
     function handleRemoveTodo(todoID: number) {
         try {
@@ -39,7 +47,7 @@ export function ListTodo({todo}: IListTodoProps) {
 
             const todoToCheck = listTodoCached.find(todo => todo.id === todoID)
 
-            if (todoToCheck) todoToCheck.checked = true
+            if (todoToCheck) todoToCheck.checked = !todoToCheck.checked
 
             const todoChecked = todoToCheck
          
@@ -56,6 +64,9 @@ export function ListTodo({todo}: IListTodoProps) {
     }
 
     return <>
+        <AddTodo onAddTodo={handleAddTodo} /> 
+
+        <div className='wrapper'>
             <div className={styles.listTodo}>
                 <div className={styles.header}>
                     <div className={styles.itemHeader}>
@@ -84,13 +95,14 @@ export function ListTodo({todo}: IListTodoProps) {
                 </div>
                 <ul>
                     {
-                        !hasListOfTodos ? 'Nenhum item disponível' : ''
+                    listTodo?.length <= 0 ? 'Nenhum item disponível' : ''
                     }
                     {
                     listTodo && listTodo.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo}/>)
                     }
-                   
+                    
                 </ul>
             </div>
+        </div>
     </>
 }
