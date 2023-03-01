@@ -39,8 +39,12 @@
     gap: 8px;
 }
 
-.formAddTodo button:hover {
+.formAddTodo button:not(:disabled):hover {
     background-color: var(--secondary-blue);
+}
+
+.formAddTodo button:disabled {
+    cursor: default;
 }
 
 .formAddTodo input:focus {

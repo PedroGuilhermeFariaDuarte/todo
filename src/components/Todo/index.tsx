@@ -1,7 +1,10 @@
 // Styles
 import styles from "./styles.module.css"
 
-export function Todo(){
+// Types
+import { ITodoProps } from "./types"
+
+export function Todo({todo}: ITodoProps){
     return <>
         <li className={styles.todo}>
             <label htmlFor="todo-checked" className={styles.inputCheckWrapper}>

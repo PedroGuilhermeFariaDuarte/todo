@@ -57,7 +57,7 @@
     display: block;
 }
 
-.todo p {    
+.todo p {
     word-wrap: break-word;
 }
 
@@ -67,6 +67,7 @@
     padding: 0.5rem;
 
     line-height: 0;
+    cursor: pointer;
 
     display: flex;
     flex-flow: row nowrap;
