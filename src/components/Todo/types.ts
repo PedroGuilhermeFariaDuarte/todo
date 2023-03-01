@@ -1,9 +1,11 @@
 export interface ITodoProps {
     todo: ITodo
+    onRemoveTodo: Function
+    onCheckTodo: Function
 }
 
 export interface ITodo {
-    id: any
+    id: number
     content: string,
-    checkded: boolean
+    checked: boolean
 }
