@@ -18,7 +18,7 @@ O app possui as seguintes features
 <img src="https://user-images.githubusercontent.com/16112395/222032253-c309a837-9161-45b9-bf32-4d67bde09a3a.png" />
 </p>
 
-## Outra informações
+## Outras informações
 Olá, este projeto faz parte da trilha **Ignite** da Rocketseat, é o ultimo projeto do primeiro modulo de React.
 
 Seguindo o aprendizado com o Feed, esse projeto serviu para fixar os conceitos do React como também para ajudar a pensar de acordo com o modelo de funcionamento do React.
