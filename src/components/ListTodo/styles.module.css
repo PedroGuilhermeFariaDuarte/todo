@@ -81,3 +81,34 @@
 .genralInformation {
     font-size: 0.9rem;
 }
+
+.groupHeader {
+    text-align: center;
+    width: 100%;
+}
+
+@media screen and (max-width: 764px) {
+    .listTodo {        
+        margin-top: 5rem;
+        padding: 1rem;
+        position: relative;
+    }    
+
+    .groupHeader {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        padding-bottom: 1rem;
+        backdrop-filter: blur(2px);
+        background-color: linear-gradient(178deg, var(--base-white-600), var(--base-white-opacity-600)) ;
+
+        text-align: left;
+        
+        position: absolute;          
+        z-index: 999;
+    }
+
+    .header {
+        margin-top: 3rem;
+    }
+}

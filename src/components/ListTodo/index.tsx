@@ -109,13 +109,13 @@ export function ListTodo({  }: IListTodoProps) {
             <div className={styles.listTodo}>               
                 <ul>
                     {
-                        listGroupsTodo?.length <= 0 ? 'Nenhumo grupo disponível' : ''
+                        listGroupsTodo?.length <= 0 ? 'Nenhumo grupo de tarefas disponível' : ''
                     }
                     
                     {
                         listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map(groupTodo => {                           
                             return groupTodo  && <> 
-                                <p key={groupTodo.id}>
+                                <p key={groupTodo.id} className={styles.groupHeader}>
                                     <span className="font-bold text-upper-first cursor-default user-no-select">
                                         {
                                             groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''

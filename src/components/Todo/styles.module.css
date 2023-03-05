@@ -96,3 +96,22 @@
 .todo button:hover svg {
     fill: var(--base-danger) !important;    
 }
+
+@media screen and (max-width: 764px) {
+    .todo {
+        width: 100%;
+        overflow: hidden;        
+    }
+
+    .todo p {
+        overflow: hidden;
+        word-wrap: none;
+        word-break: keep-all;
+        text-overflow: ellipsis;
+    }
+
+    .inputCheckWrapper svg {
+        top: 0.7rem;
+        left: 0.7rem;
+    }
+}

@@ -101,6 +101,10 @@ input::placeholder {
 }
 
 @media screen and (max-width: 768px) {
+    html, body, #root,.wrapper {
+        width: 100%;
+    }
+    
     html {
         /*
             The font size will be 87.5 percent from font size base from device
@@ -110,5 +114,7 @@ input::placeholder {
             14 * 1000 / 16
         */
         font-size: 87.5%;
-    }    
+    } 
+    
+    
 }

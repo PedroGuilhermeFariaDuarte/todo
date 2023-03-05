@@ -25,8 +25,21 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
     const todoDateMinEnd = new Date().toLocaleDateString().split('/').reverse().join('-')
 
     useEffect(() => {
-        if(groupsTodo.length > 0) onAddTodo(groupsTodo)
-    },[groupsTodo])
+        if(groupsTodo.length > 0) {
+            localStorage.setItem('TODO@GROUPS_TODO', JSON.stringify(groupsTodo || []))
+            onAddTodo(groupsTodo)
+        }
+    },[groupsTodo])    
+
+    useEffect(() => {
+        try {
+            const listGroupsTodoRecovery = JSON.parse(localStorage.getItem("TODO@GROUPS_TODO") || "[]") || []
+
+            if (groupsTodo.length <= 0) setGroupsTodo(listGroupsTodoRecovery)
+        } catch (error) {
+            console.log('AddTodo@error ~ useEffect on load', error)
+        }
+    }, [])
 
     function handleSubmitTodoForm(event: FormEvent) {
         try {

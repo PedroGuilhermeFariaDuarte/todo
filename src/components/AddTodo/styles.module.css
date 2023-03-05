@@ -101,3 +101,22 @@
 .buttonTodoDate {
     background: transparent;
 }
+
+@media screen and (max-width: 764px) {
+    .formAddTodo {
+        width: 100%;
+        padding: 1rem;
+        /* height: 50%; */
+
+        flex-flow: column;
+    }
+
+    .formAddTodo label {
+        top: 30px;
+        left: 30px;
+    }
+
+    .formAddTodo button:not(.buttonTodoDate) {
+        width: 100%;
+    }
+}
