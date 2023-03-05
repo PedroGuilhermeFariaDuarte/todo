@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useState } from "react"
 
 // Assets
 import iconPlus from "../../assets/icons/plus.svg"
+import calendarEvent from "../../assets/icons/calendar-event.svg"
+import calendarEventCheck from "../../assets/icons/calendar-event-check.svg"
 import { ITodo } from "../Todo/types"
 
 // Styles
@@ -9,12 +11,18 @@ import styles from "./styles.module.css"
 
 // Types
 import { IAddTodoProps } from "./types"
+import { IListGroup } from "../ListTodo/types"
 
 export function AddTodo({ onAddTodo }: IAddTodoProps){
 
     const [todoContent, setTodoContent] = useState("")
+    const [groupsTodo, setGroupsTodo] = useState<Array<IListGroup>>([])
+    const [todoDateTimeStart, setTodoDateTimeStart] = useState(new Date().toLocaleDateString().split('/').reverse().join('-') + ' ' + new Date().toLocaleTimeString())
+    const [todoDateTimeEnd, setTodoDateTimeEnd] = useState(new Date().toLocaleDateString().split('/').reverse().join('-') + ' ' + new Date().toLocaleTimeString())
 
     const todoHasContent = todoContent.length > 0 && true
+    const todoDateMinStart = new Date().toLocaleDateString().split('/').reverse().join('-')
+    const todoDateMinEnd = new Date().toLocaleDateString().split('/').reverse().join('-')
 
     function handleSubmitTodoForm(event: FormEvent) {
         try {
@@ -24,12 +32,13 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
 
             const newTodo: ITodo = {
                 id: new Date().getTime(),
+                dateTimeStart: todoDateTimeStart,
+                dateTimeEnd: todoDateTimeEnd,
                 content: todoContent, 
                 checked: false
             }
 
             if(newTodo.id <= 0) return
-
             
             if (onAddTodo) {
                 onAddTodo(newTodo)
@@ -39,6 +48,14 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
             setTodoContent("")
         } catch (error) {
             console.log("AddTodoComponent@error ~ AddTodo", error)
+        }
+    }
+
+    function setNewGroupTodo(){
+        try {
+            
+        } catch (error) {
+            console.log("AddTodoComponent@error", error)
         }
     }
 
@@ -60,6 +77,30 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
         }
     }
 
+    function handleShowCalendar(event: any) {
+        try {                        
+            const elementDataPicker = (event.target as HTMLButtonElement).nextSibling as HTMLInputElement
+            
+            console.log(elementDataPicker)
+
+            elementDataPicker?.showPicker()
+        } catch (error) {
+            console.log('AddTodoComponente@error ~ handleShowCalendar')
+        }
+    }
+
+    function handlerTodoDate(event: ChangeEvent<HTMLInputElement>, callback: Function = () => ({})){
+        try {
+            if(!event || !callback) return
+            
+            const dateTimeValue = new Date(event.target.value).toLocaleDateString().split('/').reverse().join('-') + ' ' + new Date(event.target.value).toLocaleTimeString()    
+
+            callback(dateTimeValue)
+        } catch (error) {
+            console.log('AddTodoComponent@error ~ handlerTodoDate', error)
+        }
+    }
+
     return <>             
         <form action="#" onSubmit={handleSubmitTodoForm} className={styles.formAddTodo}>            
             <input 
@@ -70,7 +111,28 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
                 value={todoContent}                 
                 onInvalid={handleNewTodoContentIsInvalid}
                 required/>
-            <label>Descrição da tarefa |</label>
+            <label>
+                <div className={styles.todoConfig}>
+                    <button type="button" title="Inserir uma data de inicio" className={styles.buttonTodoDate} onClick={handleShowCalendar}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#4EA8DE" className="bi bi-calendar-event" viewBox="0 0 16 16">
+                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                        </svg>                        
+                        <input type="datetime-local" name="event-start" id="event-start"  onChange={(event) => handlerTodoDate(event, setTodoDateTimeStart)} value={todoDateTimeStart} min={todoDateMinStart} />
+                    </button>
+                    <button type="button" title="Inserir uma data de finalização" className={styles.buttonTodoDate} onClick={handleShowCalendar}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" color="#4EA8DE" fill="#4EA8DE" className="bi bi-calendar2-check" viewBox="0 0 16 16">
+                            <path d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
+                            <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z" />
+                        </svg>
+                        <input type="datetime-local" name="event-end" id="event-end"  onChange={(event) => handlerTodoDate(event, setTodoDateTimeEnd)} value={todoDateTimeEnd} min={todoDateMinEnd} />
+                    </button>
+                </div>
+                <div className={styles.todoConfig}>
+                    <input type="date" name="" id="" />
+                </div>                
+            </label>
             <button type="submit" disabled={!todoHasContent ? true : false}>
                 Criar 
                 <img src={iconPlus} alt="Um circulo branco com um sibolo de MAIS no centro" />

@@ -6,14 +6,14 @@ import { AddTodo } from "../AddTodo"
 import { ITodo } from "../Todo/types"
 
 // Types
-import { IListTodoProps } from "./types"
+import { IListGroup, IListTodoProps } from "./types"
 
 // Styles
 import styles from "./styles.module.css"
 import { useState } from "react"
 
 export function ListTodo({  }: IListTodoProps) {
-    const [listTodo, setListTodo] = useState<Array<ITodo>>([])    
+    const [listTodo, setListTodo] = useState<Array<IListGroup>>([])    
 
     function handleAddTodo(newTodo: ITodo) {
         try {
@@ -82,25 +82,26 @@ export function ListTodo({  }: IListTodoProps) {
                         <span className={styles.count}>
                         
                         {
-                            listTodo ? listTodo.filter(todo => todo.checked ).length : 0
+                            // listTodo ? listTodo.filter(todo => todo.checked ).length : 0
                         }
                         
                         {' de '}
 
                         {
-                            listTodo ? listTodo.length : 0
+                            // listTodo ? listTodo.length : 0
                         }
                         </span>
                     </div>
                 </div>
                 <ul>
                     {
-                    listTodo?.length <= 0 ? 'Nenhum item disponível' : ''
+                    listTodo?.length <= 0 ? 'Nenhuma tarefa disponível' : ''
                     }
+                    <>
                     {
-                    listTodo && listTodo.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo}/>)
+                        listTodo && listTodo.forEach(groupTodo => groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />))
                     }
-                    
+                    </>                    
                 </ul>
             </div>
         </div>
