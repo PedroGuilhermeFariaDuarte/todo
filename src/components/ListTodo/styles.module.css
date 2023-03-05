@@ -9,7 +9,12 @@
     gap: 1.5rem;
 }
 
-.listTodo ul {    
+.listTodoContent {
+    width: 100%;
+    height: auto;
+}
+
+.listTodo ul {
     width: 100%;
     height: 30rem; 
     border-radius: 8px;   
@@ -27,6 +32,8 @@
 .header {
     width: 100%;
     height: auto;
+
+    margin-bottom: 1.5rem;
 
     font-size: 0.875rem;
     font-weight: bold;
@@ -57,7 +64,7 @@
     user-select: none;
 }
 
-.itemHeader ~ .itemHeader p{
+.itemHeader ~ .itemHeader p {
     color: var(--secondary-purple);
 }
 

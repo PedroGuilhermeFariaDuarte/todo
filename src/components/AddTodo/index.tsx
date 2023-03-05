@@ -29,8 +29,8 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
             localStorage.setItem('TODO@GROUPS_TODO', JSON.stringify(groupsTodo || []))
             onAddTodo(groupsTodo)
         }
-    },[groupsTodo])    
-
+    },[groupsTodo])
+    
     useEffect(() => {
         try {
             const listGroupsTodoRecovery = JSON.parse(localStorage.getItem("TODO@GROUPS_TODO") || "[]") || []
@@ -85,12 +85,12 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
 
                 actualGroupTodoToDayName.updatedAt = new Date()
                 actualGroupTodoToDayName.items.push(newTodo)
-                            
+                                    
                 setGroupsTodo((actualGroupsTodo: Array<IListGroup>) => {
-                    const groupTodoToDayIndex = actualGroupsTodo.findIndex(groupTodo => groupTodo.id === actualGroupTodoToDayName.id)
-                    actualGroupsTodo[groupTodoToDayIndex] = actualGroupTodoToDayName                    
-
-                    return actualGroupsTodo
+                    return [
+                        ...actualGroupsTodo.filter(groupTodo => groupTodo.id !== actualGroupTodoToDayName.id),
+                        actualGroupTodoToDayName
+                    ]
                 })
                 
                 return

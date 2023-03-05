@@ -17,25 +17,14 @@ export function ListTodo({  }: IListTodoProps) {
     
     const actualDateDayName = format(new Date(), "EEEE", {
         locale: ptBR
-    })
-
-    useEffect(() => {
-        if (listGroupsTodo.length > 0) localStorage.setItem('TODO@GROUPS_TODO', JSON.stringify(listGroupsTodo || []))
-    }, [listGroupsTodo])
-
-    useEffect(() => {
-        try {
-            const listGroupsTodoRecovery = JSON.parse(localStorage.getItem("TODO@GROUPS_TODO") || "[]") || []
-
-            if (listGroupsTodo.length <= 0) setListGroupsTodo(listGroupsTodoRecovery)
-        } catch (error) {
-            console.log('ListTodoComponent@error ~ useEffect on load', error)
-        }
-    },[])
+    })   
 
     function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
         try {            
             if (!newListGroupTodo || newListGroupTodo.length <= 0) return
+
+            console.log('New groups', newListGroupTodo)
+            console.log('Actual groups', listGroupsTodo)
 
             setListGroupsTodo(newListGroupTodo) 
         } catch (error) {
@@ -106,67 +95,65 @@ export function ListTodo({  }: IListTodoProps) {
         <AddTodo onAddTodo={handleAddTodo} /> 
 
         <div className='wrapper'>
-            <div className={styles.listTodo}>               
-                <ul>
-                    {
-                        listGroupsTodo?.length <= 0 ? 'Nenhumo grupo de tarefas disponível' : ''
-                    }
-                    
-                    {
-                        listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map(groupTodo => {                           
-                            return groupTodo  && <> 
-                                <p key={groupTodo.id} className={styles.groupHeader}>
-                                    <span className="font-bold text-upper-first cursor-default user-no-select">
+            <div className={styles.listTodo}>                               
+                {
+                    listGroupsTodo?.length <= 0 ? 'Nenhumo grupo de tarefas disponível' : ''
+                }
+                
+                {
+                    listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map((groupTodo,index) => {                           
+                        return groupTodo && <ul key={index} className={styles.listTodoContent}>
+                            <p className={styles.groupHeader}>
+                                <span className="font-bold text-upper-first cursor-default user-no-select">
+                                    {
+                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
+                                    }
+                                </span>
+                                {
+                                    groupTodo.updatedAt && groupTodo.items.length > 0 ?
+                                        <>
+                                            <span className={`cursor-default user-no-select ${styles.genralInformation}`}> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
+                                        </>
+                                        :
+                                        <></>
+                                }
+                            </p>
+
+                            <div className={styles.header} >
+                                <div className={styles.itemHeader}>
+                                    <p className="itemTitle">Tarefas criadas</p>
+                                    <span className={`cursor-default user-no-select ${styles.count}`}>
                                         {
-                                            groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
+                                            groupTodo ? groupTodo.items.length : 0
                                         }
                                     </span>
-                                    {
-                                        groupTodo.updatedAt && groupTodo.items.length > 0 ?
-                                            <>
-                                                <span className={`cursor-default user-no-select ${styles.genralInformation}`}> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
-                                            </>
-                                            :
-                                            <></>
-                                    }
-                                </p>
+                                </div>
+                                <div className={styles.itemHeader}>
+                                    <p className="itemTitle">Concluídas</p>
+                                    <span className={`cursor-default user-no-select ${styles.count}`}>
 
-                                <div className={styles.header}>
-                                    <div className={styles.itemHeader}>
-                                        <p className="itemTitle">Tarefas criadas</p>
-                                        <span className={`cursor-default user-no-select ${styles.count}`}>
-                                            {
-                                                groupTodo ? groupTodo.items.length : 0
-                                            }
-                                        </span>
-                                    </div>
-                                    <div className={styles.itemHeader}>
-                                        <p className="itemTitle">Concluídas</p>
-                                        <span className={`cursor-default user-no-select ${styles.count}`}>
+                                        {
+                                            groupTodo.items ? groupTodo.items.filter(todo => todo.checked).length : 0
+                                        }
 
-                                            {
-                                                groupTodo.items ? groupTodo.items.filter(todo => todo.checked ).length : 0
-                                            }
+                                        {' de '}
 
-                                            {' de '}
+                                        {
+                                            groupTodo.items ? groupTodo.items.length : 0
+                                        }
+                                    </span>
+                                </div>
+                            </div>
 
-                                            {
-                                                groupTodo.items ? groupTodo.items.length : 0
-                                            }
-                                        </span>
-                                    </div>
-                                </div>                            
-
-                                {
-                                    groupTodo.items && groupTodo.items.length <= 0 ? `${'Nenhuma tarefa disponível para ' + groupTodo.name}` : ''
-                                }
-                                {
-                                    groupTodo.items && groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />)
-                                }
-                            </>
-                        })
-                    }                    
-                </ul>
+                            {
+                                groupTodo.items && groupTodo.items.length <= 0 ? `${'Nenhuma tarefa disponível para ' + groupTodo.name}` : ''
+                            }
+                            {
+                                groupTodo.items && groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />)
+                            }
+                        </ul>
+                    })
+                }                                    
             </div>
         </div>
     </>
