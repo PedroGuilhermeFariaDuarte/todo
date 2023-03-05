@@ -13,15 +13,14 @@ import styles from "./styles.module.css"
 import { useState } from "react"
 
 export function ListTodo({  }: IListTodoProps) {
-    const [listTodo, setListTodo] = useState<Array<IListGroup>>([])    
+    const [listGroupsTodo, setListGroupsTodo] = useState<Array<IListGroup>>([])    
 
-    function handleAddTodo(newTodo: ITodo) {
+    function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
         try {
-            if (newTodo && newTodo.id <= 0) return                        
+            console.log(newListGroupTodo)
+            if (!newListGroupTodo || newListGroupTodo.length <= 0) return
 
-            const listTodoWithoutSameID = listTodo.length > 2 ? listTodo.filter(todo => todo.id !== newTodo.id) : listTodo
-
-            setListTodo([...listTodoWithoutSameID, newTodo]) 
+            setListGroupsTodo(newListGroupTodo) 
         } catch (error) {
             console.log("ListTodoComponent@error ~ handleAddTodo", error)
         }
@@ -31,9 +30,9 @@ export function ListTodo({  }: IListTodoProps) {
         try {
             if (!todoID || todoID <= 0) return
 
-            const listTodoWithoutID = listTodo.filter(todo => todo.id !== todoID)
+            const listTodoWithoutID = listGroupsTodo.filter(todo => todo.id !== todoID)
 
-            setListTodo(listTodoWithoutID)
+            setListGroupsTodo(listTodoWithoutID)
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
@@ -43,7 +42,7 @@ export function ListTodo({  }: IListTodoProps) {
         try {
             if (!todoID || todoID <= 0) return
 
-            let listTodoCached = listTodo
+            let listTodoCached = listGroupsTodo
 
             const todoToCheck = listTodoCached.find(todo => todo.id === todoID)
 
@@ -57,7 +56,7 @@ export function ListTodo({  }: IListTodoProps) {
                 listTodoCached.push(todoChecked)
             }
 
-            setListTodo(listTodoCached)  
+            setListGroupsTodo(listTodoCached)  
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
@@ -68,40 +67,52 @@ export function ListTodo({  }: IListTodoProps) {
 
         <div className='wrapper'>
             <div className={styles.listTodo}>
-                <div className={styles.header}>
-                    <div className={styles.itemHeader}>
-                        <p className="itemTitle">Tarefas criadas</p>
-                        <span className={styles.count}>
-                            {
-                                listTodo ? listTodo.length : 0
-                            }
-                        </span>
-                    </div>
-                    <div className={styles.itemHeader}>
-                        <p className="itemTitle">Concluídas</p>
-                        <span className={styles.count}>
-                        
-                        {
-                            // listTodo ? listTodo.filter(todo => todo.checked ).length : 0
-                        }
-                        
-                        {' de '}
-
-                        {
-                            // listTodo ? listTodo.length : 0
-                        }
-                        </span>
-                    </div>
-                </div>
+               
                 <ul>
                     {
-                    listTodo?.length <= 0 ? 'Nenhuma tarefa disponível' : ''
+                    listGroupsTodo?.length <= 0 ? 'Nenhuma tarefa disponível' : ''
                     }
-                    <>
+                    
                     {
-                        listTodo && listTodo.forEach(groupTodo => groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />))
-                    }
-                    </>                    
+                        listGroupsTodo && listGroupsTodo.map(groupTodo => {                           
+                            return <> 
+                                <div className={styles.header}>
+                                    <div className={styles.itemHeader}>
+                                        <p className="itemTitle">Tarefas criadas</p>
+                                        <span className={styles.count}>
+                                            {
+                                                listGroupsTodo ? listGroupsTodo.length : 0
+                                            }
+                                        </span>
+                                    </div>
+                                    <div className={styles.itemHeader}>
+                                        <p className="itemTitle">Concluídas</p>
+                                        <span className={styles.count}>
+
+                                            {
+                                                groupTodo.items ? groupTodo.items.filter(todo => todo.checked ).length : 0
+                                            }
+
+                                            {' de '}
+
+                                            {
+                                                groupTodo.items ? groupTodo.items.length : 0
+                                            }
+                                        </span>
+                                    </div>
+                                </div>                               
+                                <span key={groupTodo.id}>{groupTodo.name} - atualizado em {groupTodo.id}</span>
+                                {
+                                    groupTodo.items && groupTodo.items.map(todo => {
+                                        return <>
+                                            {todo.id}
+                                            <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />
+                                        </>
+                                    })
+                                }
+                            </>
+                        })
+                    }                    
                 </ul>
             </div>
         </div>

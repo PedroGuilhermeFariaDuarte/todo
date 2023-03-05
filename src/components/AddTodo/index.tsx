@@ -1,9 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import format from "date-fns/format"
+import ptBR from "date-fns/locale/pt-BR"
 
 // Assets
 import iconPlus from "../../assets/icons/plus.svg"
-import calendarEvent from "../../assets/icons/calendar-event.svg"
-import calendarEventCheck from "../../assets/icons/calendar-event-check.svg"
 import { ITodo } from "../Todo/types"
 
 // Styles
@@ -24,6 +24,10 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
     const todoDateMinStart = new Date().toLocaleDateString().split('/').reverse().join('-')
     const todoDateMinEnd = new Date().toLocaleDateString().split('/').reverse().join('-')
 
+    useEffect(() => {
+        if(groupsTodo.length > 0) onAddTodo(groupsTodo)
+    },[groupsTodo])
+
     function handleSubmitTodoForm(event: FormEvent) {
         try {
             if(!event) return
@@ -38,11 +42,11 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
                 checked: false
             }
 
-            if(newTodo.id <= 0) return
-            
-            if (onAddTodo) {
-                onAddTodo(newTodo)
-            }
+            if (newTodo.id > 0) {
+                setNewGroupTodo(newTodo)            
+            }else{
+                return
+            }                
             
             (event.target as HTMLFormElement)?.input?.setCustomValidity('')     
             setTodoContent("")
@@ -51,9 +55,37 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
         }
     }
 
-    function setNewGroupTodo(){
+    function setNewGroupTodo(newTodo: ITodo){
         try {
+            if(!newTodo) return
             
+            const todoDateStart = new Date(newTodo.dateTimeStart)
+            const todoDateStartDayName = format(todoDateStart, "EEEE", {
+                locale: ptBR
+            })
+            const actualGroupTodoToDayName = groupsTodo.find(groupTodo => groupTodo.name === todoDateStartDayName)
+            
+            if (actualGroupTodoToDayName) {
+
+                actualGroupTodoToDayName.items.push(newTodo)
+                            
+                setGroupsTodo((actualGroupsTodo: Array<IListGroup>) => {
+                    const groupTodoToDayIndex = actualGroupsTodo.findIndex(groupTodo => groupTodo.id === actualGroupTodoToDayName.id)
+                    actualGroupsTodo[groupTodoToDayIndex] = actualGroupTodoToDayName                    
+
+                    return actualGroupsTodo
+                })
+                
+                return
+            }
+
+            const newGroupTodo: IListGroup = {
+                id: todoDateStart.getTime(),
+                items: [newTodo],
+                name: todoDateStartDayName
+            }
+
+            setGroupsTodo(actualGroupsTodo => [...actualGroupsTodo, newGroupTodo])            
         } catch (error) {
             console.log("AddTodoComponent@error", error)
         }
