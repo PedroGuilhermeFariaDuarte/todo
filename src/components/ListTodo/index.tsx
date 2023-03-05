@@ -5,9 +5,6 @@ import ptBR from "date-fns/locale/pt-BR"
 import { Todo } from "../Todo"
 import { AddTodo } from "../AddTodo"
 
-// Global Types
-import { ITodo } from "../Todo/types"
-
 // Types
 import { IListGroup, IListTodoProps } from "./types"
 
@@ -109,8 +106,7 @@ export function ListTodo({  }: IListTodoProps) {
         <AddTodo onAddTodo={handleAddTodo} /> 
 
         <div className='wrapper'>
-            <div className={styles.listTodo}>
-               
+            <div className={styles.listTodo}>               
                 <ul>
                     {
                         listGroupsTodo?.length <= 0 ? 'Nenhumo grupo disponível' : ''
@@ -120,13 +116,15 @@ export function ListTodo({  }: IListTodoProps) {
                         listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map(groupTodo => {                           
                             return groupTodo  && <> 
                                 <p key={groupTodo.id}>
-                                    {
-                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
-                                    }
+                                    <span className="font-bold text-upper-first cursor-default user-no-select">
+                                        {
+                                            groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
+                                        }
+                                    </span>
                                     {
                                         groupTodo.updatedAt && groupTodo.items.length > 0 ?
                                             <>
-                                                <span> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
+                                                <span className={`cursor-default user-no-select ${styles.genralInformation}`}> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
                                             </>
                                             :
                                             <></>
@@ -136,7 +134,7 @@ export function ListTodo({  }: IListTodoProps) {
                                 <div className={styles.header}>
                                     <div className={styles.itemHeader}>
                                         <p className="itemTitle">Tarefas criadas</p>
-                                        <span className={styles.count}>
+                                        <span className={`cursor-default user-no-select ${styles.count}`}>
                                             {
                                                 groupTodo ? groupTodo.items.length : 0
                                             }
@@ -144,7 +142,7 @@ export function ListTodo({  }: IListTodoProps) {
                                     </div>
                                     <div className={styles.itemHeader}>
                                         <p className="itemTitle">Concluídas</p>
-                                        <span className={styles.count}>
+                                        <span className={`cursor-default user-no-select ${styles.count}`}>
 
                                             {
                                                 groupTodo.items ? groupTodo.items.filter(todo => todo.checked ).length : 0

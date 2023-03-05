@@ -6,7 +6,6 @@
     margin: 0 auto;
     margin-top: calc(0px - 3.375rem / 2);
 
-
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -17,7 +16,7 @@
 .formAddTodo input {
     flex: 1;
     width: inherit;
-    background-color: var(--base-gray-500);
+    background-color: var(--base-white-700);
     padding-left: 90px;
 }
 
@@ -35,7 +34,7 @@
 
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 8px;
 }
@@ -79,6 +78,7 @@
     background-color: red;
 
 }
+
 .todoConfig svg {
     fill: var(--base-gray-300);
     cursor: pointer;

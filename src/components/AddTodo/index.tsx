@@ -58,8 +58,7 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
     function setNewGroupTodo(newTodo: ITodo){
         try {
             if(!newTodo) return
-            
-            
+                    
             const todoDateStart = new Date(newTodo.dateTimeStart)
             const todoDateStartDayName = format(todoDateStart, "EEEE", {
                 locale: ptBR
@@ -171,7 +170,7 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
             </label>
             <button type="submit" disabled={!todoHasContent ? true : false}>
                 Criar 
-                <img src={iconPlus} alt="Um circulo branco com um sibolo de MAIS no centro" />
+                {/* <img src={iconPlus} alt="Um circulo branco com um sibolo de MAIS no centro" /> */}
             </button>
         </form>
     </>
