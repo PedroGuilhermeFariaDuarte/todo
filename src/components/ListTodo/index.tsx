@@ -26,37 +26,60 @@ export function ListTodo({  }: IListTodoProps) {
         }
     }
 
-    function handleRemoveTodo(todoID: number) {
+    function handleRemoveTodo(todoID: number, groupID: number) {
         try {
             if (!todoID || todoID <= 0) return
 
-            const listTodoWithoutID = listGroupsTodo.filter(todo => todo.id !== todoID)
+            const groupFromTodo = listGroupsTodo.find(groupTodo => groupTodo.id === groupID)
 
-            setListGroupsTodo(listTodoWithoutID)
+            if (!groupFromTodo) return
+
+            const groupTodoItemsWithoutID = groupFromTodo && groupFromTodo.items.filter(todo => todo.id !== todoID)
+
+            groupFromTodo.items = groupTodoItemsWithoutID || []
+            groupFromTodo.updatedAt = new Date()
+            
+            setListGroupsTodo(listGroupsTodo => {
+                return [
+                    ...listGroupsTodo.filter(groupTodo => groupTodo.id !== groupFromTodo.id),
+                    groupFromTodo
+                ]
+            })
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
     }
 
-    function handleCheckTodo(todoID: number) {
+    function handleCheckTodo(todoID: number, groupID: number) {
         try {
             if (!todoID || todoID <= 0) return
 
-            let listTodoCached = listGroupsTodo
+            const groupFromTodo = listGroupsTodo.find(groupTodo => groupTodo.id === groupID)
 
-            const todoToCheck = listTodoCached.find(todo => todo.id === todoID)
+            if (!groupFromTodo) return
+
+            const todoToCheck = groupFromTodo.items.find(todo => todo.id === todoID)
 
             if (todoToCheck) todoToCheck.checked = !todoToCheck.checked
 
             const todoChecked = todoToCheck
          
             if (todoChecked) {
-                listTodoCached = listTodoCached.filter(todo => todo.id !== todoID)
+                const listTodoCached = groupFromTodo.items.filter(todo => todo.id !== todoID)
 
                 listTodoCached.push(todoChecked)
-            }
 
-            setListGroupsTodo(listTodoCached)  
+                groupFromTodo.items = listTodoCached
+
+                groupFromTodo.updatedAt = new Date()
+            }            
+
+            setListGroupsTodo(listGroupsTodo => {
+                return [
+                    ...listGroupsTodo.filter(groupTodo => groupTodo.id !== groupFromTodo.id),
+                    groupFromTodo
+                ]
+            })
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
@@ -70,7 +93,7 @@ export function ListTodo({  }: IListTodoProps) {
                
                 <ul>
                     {
-                    listGroupsTodo?.length <= 0 ? 'Nenhuma tarefa disponível' : ''
+                    listGroupsTodo?.length <= 0 ? 'Nenhuma grupo disponível' : ''
                     }
                     
                     {
@@ -81,7 +104,7 @@ export function ListTodo({  }: IListTodoProps) {
                                         <p className="itemTitle">Tarefas criadas</p>
                                         <span className={styles.count}>
                                             {
-                                                listGroupsTodo ? listGroupsTodo.length : 0
+                                                groupTodo ? groupTodo.items.length : 0
                                             }
                                         </span>
                                     </div>
@@ -100,15 +123,27 @@ export function ListTodo({  }: IListTodoProps) {
                                             }
                                         </span>
                                     </div>
-                                </div>                               
-                                <span key={groupTodo.id}>{groupTodo.name} - atualizado em {groupTodo.id}</span>
+                                </div>    
+
+                                <p key={groupTodo.id}>
+                                    {
+                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name  : ''
+                                    }                                    
+                                    {
+                                        groupTodo.updatedAt ?
+                                            <>
+                                            <span> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
+                                            </>
+                                        :
+                                        <></>
+                                    }
+                                </p>
+
                                 {
-                                    groupTodo.items && groupTodo.items.map(todo => {
-                                        return <>
-                                            {todo.id}
-                                            <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />
-                                        </>
-                                    })
+                                    groupTodo.items && groupTodo.items.length <= 0 ? `${'Nenhuma tarefa disponível para ' + groupTodo.name}` : ''
+                                }
+                                {
+                                    groupTodo.items && groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />)
                                 }
                             </>
                         })

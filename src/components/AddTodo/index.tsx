@@ -59,14 +59,19 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
         try {
             if(!newTodo) return
             
+            
             const todoDateStart = new Date(newTodo.dateTimeStart)
             const todoDateStartDayName = format(todoDateStart, "EEEE", {
                 locale: ptBR
             })
             const actualGroupTodoToDayName = groupsTodo.find(groupTodo => groupTodo.name === todoDateStartDayName)
+            const groupID = todoDateStart.getTime()
             
+            newTodo.groupID = groupID
+
             if (actualGroupTodoToDayName) {
 
+                actualGroupTodoToDayName.updatedAt = new Date()
                 actualGroupTodoToDayName.items.push(newTodo)
                             
                 setGroupsTodo((actualGroupsTodo: Array<IListGroup>) => {
@@ -80,8 +85,9 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
             }
 
             const newGroupTodo: IListGroup = {
-                id: todoDateStart.getTime(),
+                id: groupID,
                 items: [newTodo],
+                createdAt: new Date(),
                 name: todoDateStartDayName
             }
 
@@ -111,9 +117,7 @@ export function AddTodo({ onAddTodo }: IAddTodoProps){
 
     function handleShowCalendar(event: any) {
         try {                        
-            const elementDataPicker = (event.target as HTMLButtonElement).nextSibling as HTMLInputElement
-            
-            console.log(elementDataPicker)
+            const elementDataPicker = (event.target as HTMLButtonElement).nextSibling as HTMLInputElement                    
 
             elementDataPicker?.showPicker()
         } catch (error) {

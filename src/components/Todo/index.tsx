@@ -8,7 +8,7 @@ export function Todo({todo,onRemoveTodo,onCheckTodo}: ITodoProps){
 
     function handleRemoveTodo(){
         try {
-            onRemoveTodo(todo.id)
+            onRemoveTodo(todo.id,todo.groupID)
         } catch (error) {
             console.log('TodoComponent@error ~ handleRemoveTodo', error)
         }
@@ -16,7 +16,7 @@ export function Todo({todo,onRemoveTodo,onCheckTodo}: ITodoProps){
 
     function handleCheckTodo(){
         try {
-            onCheckTodo(todo.id)
+            onCheckTodo(todo.id,todo.groupID)
         } catch (error) {
             console.log('TodoComponent@error ~ handleCheckTodo', error)
         }
