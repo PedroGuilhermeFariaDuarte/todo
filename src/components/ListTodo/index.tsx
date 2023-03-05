@@ -13,7 +13,7 @@ import { IListGroup, IListTodoProps } from "./types"
 
 // Styles
 import styles from "./styles.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function ListTodo({  }: IListTodoProps) {
     const [listGroupsTodo, setListGroupsTodo] = useState<Array<IListGroup>>([])  
@@ -22,9 +22,22 @@ export function ListTodo({  }: IListTodoProps) {
         locale: ptBR
     })
 
-    function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
+    useEffect(() => {
+        if (listGroupsTodo.length > 0) localStorage.setItem('TODO@GROUPS_TODO', JSON.stringify(listGroupsTodo || []))
+    }, [listGroupsTodo])
+
+    useEffect(() => {
         try {
-            console.log(newListGroupTodo)
+            const listGroupsTodoRecovery = JSON.parse(localStorage.getItem("TODO@GROUPS_TODO") || "[]") || []
+
+            if (listGroupsTodo.length <= 0) setListGroupsTodo(listGroupsTodoRecovery)
+        } catch (error) {
+            console.log('ListTodoComponent@error ~ useEffect on load', error)
+        }
+    },[])
+
+    function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
+        try {            
             if (!newListGroupTodo || newListGroupTodo.length <= 0) return
 
             setListGroupsTodo(newListGroupTodo) 
@@ -111,7 +124,7 @@ export function ListTodo({  }: IListTodoProps) {
                                         groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
                                     }
                                     {
-                                        groupTodo.updatedAt ?
+                                        groupTodo.updatedAt && groupTodo.items.length > 0 ?
                                             <>
                                                 <span> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
                                             </>
@@ -119,7 +132,7 @@ export function ListTodo({  }: IListTodoProps) {
                                             <></>
                                     }
                                 </p>
-                                
+
                                 <div className={styles.header}>
                                     <div className={styles.itemHeader}>
                                         <p className="itemTitle">Tarefas criadas</p>
