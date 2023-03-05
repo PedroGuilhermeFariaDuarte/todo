@@ -1,3 +1,6 @@
+import format from "date-fns/format"
+import ptBR from "date-fns/locale/pt-BR"
+
 // Global Components
 import { Todo } from "../Todo"
 import { AddTodo } from "../AddTodo"
@@ -13,7 +16,11 @@ import styles from "./styles.module.css"
 import { useState } from "react"
 
 export function ListTodo({  }: IListTodoProps) {
-    const [listGroupsTodo, setListGroupsTodo] = useState<Array<IListGroup>>([])    
+    const [listGroupsTodo, setListGroupsTodo] = useState<Array<IListGroup>>([])  
+    
+    const actualDateDayName = format(new Date(), "EEEE", {
+        locale: ptBR
+    })
 
     function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
         try {
@@ -38,7 +45,7 @@ export function ListTodo({  }: IListTodoProps) {
 
             groupFromTodo.items = groupTodoItemsWithoutID || []
             groupFromTodo.updatedAt = new Date()
-            
+
             setListGroupsTodo(listGroupsTodo => {
                 return [
                     ...listGroupsTodo.filter(groupTodo => groupTodo.id !== groupFromTodo.id),
@@ -93,12 +100,26 @@ export function ListTodo({  }: IListTodoProps) {
                
                 <ul>
                     {
-                    listGroupsTodo?.length <= 0 ? 'Nenhuma grupo disponível' : ''
+                        listGroupsTodo?.length <= 0 ? 'Nenhumo grupo disponível' : ''
                     }
                     
                     {
-                        listGroupsTodo && listGroupsTodo.map(groupTodo => {                           
-                            return <> 
+                        listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map(groupTodo => {                           
+                            return groupTodo  && <> 
+                                <p key={groupTodo.id}>
+                                    {
+                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
+                                    }
+                                    {
+                                        groupTodo.updatedAt ?
+                                            <>
+                                                <span> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
+                                            </>
+                                            :
+                                            <></>
+                                    }
+                                </p>
+                                
                                 <div className={styles.header}>
                                     <div className={styles.itemHeader}>
                                         <p className="itemTitle">Tarefas criadas</p>
@@ -123,21 +144,7 @@ export function ListTodo({  }: IListTodoProps) {
                                             }
                                         </span>
                                     </div>
-                                </div>    
-
-                                <p key={groupTodo.id}>
-                                    {
-                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name  : ''
-                                    }                                    
-                                    {
-                                        groupTodo.updatedAt ?
-                                            <>
-                                            <span> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
-                                            </>
-                                        :
-                                        <></>
-                                    }
-                                </p>
+                                </div>                            
 
                                 {
                                     groupTodo.items && groupTodo.items.length <= 0 ? `${'Nenhuma tarefa disponível para ' + groupTodo.name}` : ''
