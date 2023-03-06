@@ -100,6 +100,29 @@ input::placeholder {
     gap: 3.875rem;
 }
 
+.footer-text {
+    width: auto;
+
+    text-align: center;
+    margin: 0 auto;
+
+    font-size: 0.8rem;
+    color: var(--base-white-700);
+}
+
+.footer-text a {
+    text-decoration: none;
+
+    font-weight: 600;    
+    color: inherit;
+    /* color: var(--secondary-blue-dark); */
+}
+
+.footer-text a:visited {
+    color: inherit;
+    /* color: var(--secondary-blue-dark);     */
+}
+
 @media screen and (max-width: 768px) {
     html, body, #root,.wrapper {
         width: 100%;
