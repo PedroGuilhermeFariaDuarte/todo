@@ -22,6 +22,7 @@ Este documento tem por objetivo descrever todos os processos que envolve o escop
 -	Pessoas com problemas de produtividade e gestão de suas tarefas
 
 
+
 #### **Nome do produto e de seus componentes principais**
 
 Todo como um produto tem como componente principal a tarefa criada pelo usuário, mas também oferece uma navegação assistida (usabilidade) como um dos seus componentes.
