@@ -1,63 +1,91 @@
+import format from "date-fns/format"
+import ptBR from "date-fns/locale/pt-BR"
+
 // Global Components
 import { Todo } from "../Todo"
 import { AddTodo } from "../AddTodo"
 
-// Global Types
-import { ITodo } from "../Todo/types"
-
 // Types
-import { IListTodoProps } from "./types"
+import { IListGroup, IListTodoProps } from "./types"
 
 // Styles
 import styles from "./styles.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function ListTodo({  }: IListTodoProps) {
-    const [listTodo, setListTodo] = useState<Array<ITodo>>([])    
+    const [listGroupsTodo, setListGroupsTodo] = useState<Array<IListGroup>>([])  
+    
+    const actualDateDayName = format(new Date(), "EEEE", {
+        locale: ptBR
+    })   
 
-    function handleAddTodo(newTodo: ITodo) {
-        try {
-            if (newTodo && newTodo.id <= 0) return                        
+    function handleAddTodo(newListGroupTodo: Array<IListGroup>) {
+        try {            
+            if (!newListGroupTodo || newListGroupTodo.length <= 0) return
 
-            const listTodoWithoutSameID = listTodo.length > 2 ? listTodo.filter(todo => todo.id !== newTodo.id) : listTodo
+            console.log('New groups', newListGroupTodo)
+            console.log('Actual groups', listGroupsTodo)
 
-            setListTodo([...listTodoWithoutSameID, newTodo]) 
+            setListGroupsTodo(newListGroupTodo) 
         } catch (error) {
             console.log("ListTodoComponent@error ~ handleAddTodo", error)
         }
     }
 
-    function handleRemoveTodo(todoID: number) {
+    function handleRemoveTodo(todoID: number, groupID: number) {
         try {
             if (!todoID || todoID <= 0) return
 
-            const listTodoWithoutID = listTodo.filter(todo => todo.id !== todoID)
+            const groupFromTodo = listGroupsTodo.find(groupTodo => groupTodo.id === groupID)
 
-            setListTodo(listTodoWithoutID)
+            if (!groupFromTodo) return
+
+            const groupTodoItemsWithoutID = groupFromTodo && groupFromTodo.items.filter(todo => todo.id !== todoID)
+
+            groupFromTodo.items = groupTodoItemsWithoutID || []
+            groupFromTodo.updatedAt = new Date()
+
+            setListGroupsTodo(listGroupsTodo => {
+                return [
+                    ...listGroupsTodo.filter(groupTodo => groupTodo.id !== groupFromTodo.id),
+                    groupFromTodo
+                ]
+            })
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
     }
 
-    function handleCheckTodo(todoID: number) {
+    function handleCheckTodo(todoID: number, groupID: number) {
         try {
             if (!todoID || todoID <= 0) return
 
-            let listTodoCached = listTodo
+            const groupFromTodo = listGroupsTodo.find(groupTodo => groupTodo.id === groupID)
 
-            const todoToCheck = listTodoCached.find(todo => todo.id === todoID)
+            if (!groupFromTodo) return
+
+            const todoToCheck = groupFromTodo.items.find(todo => todo.id === todoID)
 
             if (todoToCheck) todoToCheck.checked = !todoToCheck.checked
 
             const todoChecked = todoToCheck
          
             if (todoChecked) {
-                listTodoCached = listTodoCached.filter(todo => todo.id !== todoID)
+                const listTodoCached = groupFromTodo.items.filter(todo => todo.id !== todoID)
 
                 listTodoCached.push(todoChecked)
-            }
 
-            setListTodo(listTodoCached)  
+                groupFromTodo.items = listTodoCached
+
+                groupFromTodo.updatedAt = new Date()
+            }            
+
+            setListGroupsTodo(listGroupsTodo => {
+                return [
+                    ...listGroupsTodo.filter(groupTodo => groupTodo.id !== groupFromTodo.id),
+                    groupFromTodo
+                ]
+            })
         } catch (error) {
             console.log('ListTodoComponent@error ~ handleRemoveTodo', error)
         }
@@ -67,41 +95,65 @@ export function ListTodo({  }: IListTodoProps) {
         <AddTodo onAddTodo={handleAddTodo} /> 
 
         <div className='wrapper'>
-            <div className={styles.listTodo}>
-                <div className={styles.header}>
-                    <div className={styles.itemHeader}>
-                        <p className="itemTitle">Tarefas criadas</p>
-                        <span className={styles.count}>
-                            {
-                                listTodo ? listTodo.length : 0
-                            }
-                        </span>
-                    </div>
-                    <div className={styles.itemHeader}>
-                        <p className="itemTitle">Concluídas</p>
-                        <span className={styles.count}>
-                        
-                        {
-                            listTodo ? listTodo.filter(todo => todo.checked ).length : 0
-                        }
-                        
-                        {' de '}
+            <div className={styles.listTodo}>                               
+                {
+                    listGroupsTodo?.length <= 0 ? 'Nenhumo grupo de tarefas disponível' : ''
+                }
+                
+                {
+                    listGroupsTodo && [listGroupsTodo.find(groupTodo => groupTodo.name === actualDateDayName)].map((groupTodo,index) => {                           
+                        return groupTodo && <ul key={index} className={styles.listTodoContent}>
+                            <p className={styles.groupHeader}>
+                                <span className="font-bold text-upper-first cursor-default user-no-select">
+                                    {
+                                        groupTodo.items && groupTodo.items.length > 0 ? groupTodo.name : ''
+                                    }
+                                </span>
+                                {
+                                    groupTodo.updatedAt && groupTodo.items.length > 0 ?
+                                        <>
+                                            <span className={`cursor-default user-no-select ${styles.genralInformation}`}> - atualizado em {groupTodo.updatedAt?.toLocaleString()} </span>
+                                        </>
+                                        :
+                                        <></>
+                                }
+                            </p>
 
-                        {
-                            listTodo ? listTodo.length : 0
-                        }
-                        </span>
-                    </div>
-                </div>
-                <ul>
-                    {
-                    listTodo?.length <= 0 ? 'Nenhum item disponível' : ''
-                    }
-                    {
-                    listTodo && listTodo.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo}/>)
-                    }
-                    
-                </ul>
+                            <div className={styles.header} >
+                                <div className={styles.itemHeader}>
+                                    <p className="itemTitle">Tarefas criadas</p>
+                                    <span className={`cursor-default user-no-select ${styles.count}`}>
+                                        {
+                                            groupTodo ? groupTodo.items.length : 0
+                                        }
+                                    </span>
+                                </div>
+                                <div className={styles.itemHeader}>
+                                    <p className="itemTitle">Concluídas</p>
+                                    <span className={`cursor-default user-no-select ${styles.count}`}>
+
+                                        {
+                                            groupTodo.items ? groupTodo.items.filter(todo => todo.checked).length : 0
+                                        }
+
+                                        {' de '}
+
+                                        {
+                                            groupTodo.items ? groupTodo.items.length : 0
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+
+                            {
+                                groupTodo.items && groupTodo.items.length <= 0 ? `${'Nenhuma tarefa disponível para ' + groupTodo.name}` : ''
+                            }
+                            {
+                                groupTodo.items && groupTodo.items.map(todo => <Todo key={todo.id} todo={todo} onRemoveTodo={handleRemoveTodo} onCheckTodo={handleCheckTodo} />)
+                            }
+                        </ul>
+                    })
+                }                                    
             </div>
         </div>
     </>

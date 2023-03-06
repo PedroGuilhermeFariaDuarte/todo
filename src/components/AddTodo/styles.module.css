@@ -6,7 +6,6 @@
     margin: 0 auto;
     margin-top: calc(0px - 3.375rem / 2);
 
-
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -17,10 +16,11 @@
 .formAddTodo input {
     flex: 1;
     width: inherit;
-    background-color: var(--base-gray-500);
+    background-color: var(--base-white-700);
+    padding-left: 90px;
 }
 
-.formAddTodo button {
+.formAddTodo button:not(.buttonTodoDate) {
     width: 5.625rem;
     height: 3.25rem;
     border: none;
@@ -34,12 +34,12 @@
 
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 8px;
 }
 
-.formAddTodo button:not(:disabled):hover {
+.formAddTodo button:not(:disabled,.buttonTodoDate):hover {
     background-color: var(--secondary-blue);
 }
 
@@ -47,16 +47,12 @@
     cursor: default;
 }
 
-.formAddTodo input:focus {
-    padding-left: 179px;    
-}
-
 .formAddTodo input:focus::placeholder{
     color: var(--base-gray-500);
 }
 
 .formAddTodo label {
-    display: none;
+    /* display: none; */
 
     cursor: default;
     user-select: none;
@@ -67,6 +63,60 @@
     left: 16px;
 }
 
-.formAddTodo input:focus ~ label{   
-    display: block;
+.todoConfig {
+    width: auto;
+    height: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.todoConfig b {
+    background-color: red;
+
+}
+
+.todoConfig svg {
+    fill: var(--base-gray-300);
+    cursor: pointer;
+}
+
+.todoConfig svg:hover {
+    fill: var(--secondary-blue);
+}
+
+.todoConfig input {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: 0 !important; 
+    padding: 0 !important; 
+    outline: none !important;
+    /* display: none; */
+}
+
+.buttonTodoDate {
+    background: transparent;
+}
+
+@media screen and (max-width: 764px) {
+    .formAddTodo {
+        width: 100%;
+        padding: 1rem;
+        /* height: 50%; */
+
+        flex-flow: column;
+    }
+
+    .formAddTodo label {
+        top: 30px;
+        left: 30px;
+    }
+
+    .formAddTodo button:not(.buttonTodoDate) {
+        width: 100%;
+    }
 }

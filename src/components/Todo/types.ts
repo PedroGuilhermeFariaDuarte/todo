@@ -6,6 +6,9 @@ export interface ITodoProps {
 
 export interface ITodo {
     id: number
+    groupID?: number,
     content: string,
-    checked: boolean
+    checked: boolean,
+    dateTimeStart: string,
+    dateTimeEnd: string
 }
