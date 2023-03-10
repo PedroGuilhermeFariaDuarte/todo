@@ -1,4 +1,5 @@
-![ignite Todo](https://user-images.githubusercontent.com/16112395/222031772-bfedd240-d5b6-47f8-bd24-a41b358e297e.png)
+![todo-v2](https://user-images.githubusercontent.com/16112395/223253622-b2b351bd-b3d0-4eb8-a81b-27638699980a.png)
+
 
 # Introdução
 O aumento nas tarefas diárias acaba prejudicando a organização e produtividade, e tudo que foi planejado para o dia e até mesmo para a semana acaba não sendo concluído. 
@@ -112,4 +113,16 @@ A tarefa deve sempre ter uma descrição
 4.	[**RN004**] – A tarefa pode ser concluída
 A tarefa pode ser concluída a qualquer momento pelo usuário
 5.	[**RN005**] – Armazenar os grupos de tarefas
-Todo os grupos de tarefas devem ser salvos quando são criados, atualizados e excluídos 
+Todo os grupos de tarefas devem ser salvos quando são criados, atualizados e excluídos
+
+
+
+Agradeço a leitura e fique a vontade para fazer o build do Todo e usar no seu dia-a-dia, mas peço que [respeite a licença de uso](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.pt_BR) da branch V2!
+
+E caso sinta que o aplicativo ajudou você ou algum conhecido, se puder dar uma forcinha também agradeço, rss... 😂
+
+<p>
+<img src="https://user-images.githubusercontent.com/16112395/223235753-e9aef3cb-e899-4706-837e-85040be61df7.jpg" width="150" height="150"/>
+</p>
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/PedroGuilhermeFariaDuarte/todo/tree/v2">todo</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="http://www.instragam.com/instadaonedev/">ONEDEV Developments</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-ND 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"></a></p>
