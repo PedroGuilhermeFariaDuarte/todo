@@ -138,6 +138,9 @@ input::placeholder {
         */
         font-size: 87.5%;
     } 
-    
+
+    .footer-text {
+        margin: 0.5rem auto;
+    }
     
 }
