@@ -51,6 +51,10 @@
     color: var(--base-gray-500);
 }
 
+.formAddTodo input:focus {
+    caret-color: auto !important;
+}
+
 .formAddTodo label {
     /* display: none; */
 
