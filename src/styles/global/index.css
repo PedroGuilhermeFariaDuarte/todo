@@ -104,7 +104,7 @@ input::placeholder {
     width: auto;
 
     text-align: center;
-    margin: 0 auto;
+    margin: 5rem auto;
 
     font-size: 0.8rem;
     color: var(--base-white-700);
