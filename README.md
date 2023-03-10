@@ -10,7 +10,7 @@ Mas isso não significa que não houve nenhum aprendizado 😅, já estou usando
 
 E com esse projeto de conclusão o maior aprendizado foram essas novas features do css como o CSS Modules e a nova forma de trabalhar com formulários no React 😁
 
-Lembrando, aproveitei e apliquei algumas mudanças nesse projeto, [recomendo a leitura](https://github.com/PedroGuilhermeFariaDuarte/todo/tree/v2), acredito que ficou bem legal
+Lembrando, aproveitei e apliquei algumas mudanças nesse projeto, [recomendo a leitura](https://github.com/PedroGuilhermeFariaDuarte/todo/tree/v2), acredito que ficou bem legal e para saber todas as novidades de uma forma mais resumida [veja esse realese aqui](https://github.com/PedroGuilhermeFariaDuarte/todo/releases/tag/v2.5.7-alpha)
 
 Acesse aqui também para ver o aplicativo [acesse a aplicação aqui](https://tuudo.netlify.app/)
 
